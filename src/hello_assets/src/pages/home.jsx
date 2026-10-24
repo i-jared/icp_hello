@@ -1,5 +1,5 @@
 import * as React from "react";
-import PlugConnect from "@psychedelic/plug-connect";
+import PlugConnect from "../components/PlugConnect";
 import "../../assets/main.css";
 
 const Home = (props) => {
@@ -30,11 +30,10 @@ const Home = (props) => {
       ) : (
         <PlugConnect
           whitelist={props.whitelist}
-          onConnectCallback={() => {
+          onConnectCallback={async () => {
             props.setLoggedIn(true);
-            window.ic.plug.agent.getPrincipal().then((val) => {
-              props.setPrincipal(val.toText());
-            });
+            const principal = await window.ic.plug.agent.getPrincipal();
+            props.setPrincipal(principal.toText());
           }}
         />
       )}
